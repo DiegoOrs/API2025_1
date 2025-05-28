@@ -4,13 +4,12 @@ export const obetenerClientes = async (req, res) => {
     res.send("Clientes obtenidos correctamente");
 }
 export const getClientes = async (req, res) => {
-    try{
-        const [result]=await conmysql.query("select * from clientes");
-        res.json(({cant:result.length, data:result}));
-    }catch (error) {
-        return res.status(500).json({message: "Error al obtener los clientes",});
+    try {
+        const [result] = await conmysql.query("SELECT * FROM clientes");
+        res.json({ cant: result.length, data: result }); // <-- Quita los paréntesis extra
+    } catch (error) {
+        return res.status(500).json({ message: "Error al obtener los clientes" });
     }
-
 }
 
 //retorna cliente x id
@@ -27,8 +26,8 @@ export const getClientesxid = async (req, res) => {
         }
         res.json(result[0]);
 
-    }catch (error) {
-        return res.status(500).json({message: "Error al obtener los clientes",});
+    } catch (error) {
+        return res.status(500).json({ message: "Error al obtener los clientes" });
     }
 }
 
