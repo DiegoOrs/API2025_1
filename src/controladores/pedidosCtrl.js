@@ -25,20 +25,6 @@ export const getPedidosxid = async (req, res) => {
 
 // Crear pedido simple (puedes mantenerlo si deseas)
 export const postPedidos = async (req, res) => {
-  try {
-    const { cli_id, ped_fecha, usr_id, ped_estado } = req.body;
-    const [result] = await conmysql.query(
-      "INSERT INTO pedidos(cli_id, ped_fecha, usr_id, ped_estado) VALUES(?,?,?,?)",
-      [cli_id, ped_fecha || new Date(), usr_id, ped_estado || 0]
-    );
-    res.json({ id: result.insertId, cli_id, message: "Pedido creado correctamente" });
-  } catch (error) {
-    return res.status(500).json({ message: "Error al crear el pedido", error: error.message });
-  }
-};
-
-// Crear pedido con detalles (pedido + productos)
-export const crearPedidoConDetalles = async (req, res) => {
   const { cli_id, usr_id, productos } = req.body; // productos: [{ prod_id, cantidad, precio }]
   const connection = await conmysql.getConnection();
 
@@ -69,6 +55,39 @@ export const crearPedidoConDetalles = async (req, res) => {
     connection.release();
   }
 };
+
+// Crear pedido con detalles (pedido + productos)
+/*export const crearPedidoConDetalles = async (req, res) => {
+  const { cli_id, usr_id, productos } = req.body; // productos: [{ prod_id, cantidad, precio }]
+  const connection = await conmysql.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    const [pedido] = await connection.query(
+      "INSERT INTO pedidos (cli_id, usr_id, ped_fecha, ped_estado) VALUES (?, ?, NOW(), 1)",
+      [cli_id, usr_id]
+    );
+
+    const ped_id = pedido.insertId;
+
+    for (const item of productos) {
+      await connection.query(
+        "INSERT INTO pedidos_detalle (prod_id, ped_id, det_cantidad, det_precio) VALUES (?, ?, ?, ?)",
+        [item.prod_id, ped_id, item.cantidad, item.precio]
+      );
+    }
+
+    await connection.commit();
+    res.status(200).json({ message: "Pedido registrado correctamente", ped_id });
+  } catch (error) {
+    await connection.rollback();
+    console.error("Error al registrar el pedido:", error);
+    res.status(500).json({ error: "Error al registrar el pedido" });
+  } finally {
+    connection.release();
+  }
+};*/
 
 // Actualizar pedido completo
 export const putPedidos = async (req, res) => {
