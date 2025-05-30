@@ -37,7 +37,7 @@ export const getproductosxid = async (req, res) => {
 }
 
 // POST: Crear nuevo producto con imagen
-export const postProducto = async (req, res) => {
+export const postProductos = async (req, res) => {
   try {
     const { prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo } = req.body;
     const prod_imagen = req.file ? `/uploads/${req.file.filename}` : null;
@@ -69,7 +69,7 @@ export const postProducto = async (req, res) => {
 };
 
 
-export const putProducto = async (req, res) => {
+export const putProductos = async (req, res) => {
   try {
     const { id } = req.params;
     const { prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo, prod_imagen } = req.body;
@@ -100,7 +100,7 @@ export const putProducto = async (req, res) => {
   }
 };
 
-export const patchProducto = async (req, res) => {
+export const patchProductos = async (req, res) => {
   try {
     const { id } = req.params;
     const { prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo, prod_imagen } = req.body;
@@ -133,7 +133,7 @@ export const patchProducto = async (req, res) => {
   }
 };
 
-export const deleteProducto = async (req, res) => {
+export const deleteProductos = async (req, res) => {
   try {
     const [rows] = await conmysql.query('DELETE FROM productos WHERE prod_id = ?', [req.params.id]);
     if (rows.affectedRows <= 0) return res.status(404).json({

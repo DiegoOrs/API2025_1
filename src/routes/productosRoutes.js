@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getProductos, getProductosxid, postProductos, putProductos, patchProductos, deleteProductos, upload } from '../controladores/productosCtrl.js';
+import { getProductos, getproductosxid, postProductos, putProductos, patchProductos, deleteProductos, upload } from '../controladores/productosCtrl.js';
 import multer from 'multer'
 const router = Router();
 //configurar multer para almacenar las imagenes
@@ -14,7 +14,7 @@ const router = Router();
 
     const uploads=multer({storage});
 router.get('/productos', getProductos);
-router.get('/productos/:id', getProductosxid);
+router.get('/productos/:id', getproductosxid);
 router.post('/productos', upload.single('prod_imagen'), postProductos);
 router.put('/productos/:id', putProductos);
 router.patch('/productos/:id', patchProductos);
