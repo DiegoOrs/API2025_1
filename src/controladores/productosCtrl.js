@@ -16,7 +16,14 @@ export const upload = multer({ storage });
 export const getProductos = async (req, res) => {
   try {
     const [result] = await conmysql.query('SELECT * FROM productos');
-    res.json(result);
+    // Agrega la URL base a las imágenes
+    const productosConUrl = result.map(producto => ({
+      ...producto,
+      prod_imagen: producto.prod_imagen 
+        ? `${req.protocol}://${req.get('host')}${producto.prod_imagen}`
+        : null
+    }));
+    res.json(productosConUrl);
   } catch (error) {
     return res.status(500).json({ message: "Error al consultar productos" });
   }
