@@ -1,6 +1,7 @@
-import { Router } from 'express';
+import express from 'express';
 import { login } from '../controladores/authController.js';
 
-const router = Router();
-router.post('/login', login); // Ruta pública para generar token
+const router = express.Router();
+router.post('/login', login);
+
 export default router;

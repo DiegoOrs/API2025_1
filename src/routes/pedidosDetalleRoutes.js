@@ -1,14 +1,12 @@
-import { Router } from 'express'
-import { getPedidosDetalle, getPedidosDetallexid, getDetallesPorPedido, postPedidosDetalle, putPedidosDetalle, patchPedidosDetalle, deletePedidosDetalle } from '../controladores/pedidosDetalleCtrl.js';
+import { Router } from "express";
+import {  getPedidosdet, getpedidosdetxid, patchPedidosdet, postPedidosdet, putPedidosdet, deletePedidosdet } from '../controladores/pedidosDetalleCtrl.js'
+const router=Router();
 
-const router = Router();
-
-router.get('/pedidos_detalle', getPedidosDetalle);
-router.get('/pedidos_detalle/:id', getPedidosDetallexid);
-router.get('/pedidos/:ped_id/detalles', getDetallesPorPedido);
-router.post('/pedidos_detalle', postPedidosDetalle);
-router.put('/pedidos_detalle/:id', putPedidosDetalle);
-router.patch('/pedidos_detalle/:id', patchPedidosDetalle);
-router.delete('/pedidos_detalle/:id', deletePedidosDetalle);
+router.get('/pedidosdet',getPedidosdet )
+router.get('/pedidosdet/:id', getpedidosdetxid)
+router.post('/pedidosdet', postPedidosdet)
+router.put('/pedidosdet/:id', putPedidosdet)
+router.patch('/pedidosdet/:id', patchPedidosdet)
+router.delete('/pedidosdet/:id', deletePedidosdet)
 
 export default router;

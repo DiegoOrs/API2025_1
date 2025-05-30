@@ -1,22 +1,7 @@
 import jwt from 'jsonwebtoken';
-
-export const login = (req, res) => {
-  // Generar token SIN validar credenciales (acepta cualquier email/password)
-  const { email = "user@example.com", password = "" } = req.body; // Valores por defecto
-
-  const token = jwt.sign(
-    { 
-      email,  // Usa el email recibido (o el valor por defecto)
-      role: "user", // Rol genérico
-      randomId: Math.random().toString(36).substring(2) // ID aleatorio
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: '1h' }
-  );
-
-  res.json({ 
-    success: true,
-    token,
-    debug: "Token generado sin validación de credenciales" 
-  });
+export const login=(req, res)=>{
+  // Generamos el token directamente
+  const user = {id: 1, username: 'User'}; //Simula un usuario
+  const token = jwt.sign(user, process.env.JWT_SECRET, {expiresIn: '1h'});
+  res.json({token});
 };

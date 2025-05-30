@@ -1,9 +1,15 @@
-import { Router } from 'express'
-import { getProductos, getproductosxid, postProductos, putProductos, patchProductos, deleteProductos } from '../controladores/productosCtrl.js';
-import multer from 'multer'
-import { upload } from '../controladores/productosCtrl.js'; // Usa esta instancia
-const router = Router();
-//configurar multer para almacenar las imagenes
+    import { Router } from "express";
+    import multer from 'multer'
+    import {
+        getProductos, 
+        getproductosxid,
+        postProducto,
+        putProducto,
+        patchProducto,
+        deleteProducto
+    } from '../controladores/productosCtrl.js'
+
+    //configurar multer para almacenar las imagenes
     const storage=multer.diskStorage({
         destination:(req,file,cb)=>{
             cb(null,'uploads'); //carpeta donde se guardan las imagenes
@@ -14,11 +20,15 @@ const router = Router();
     });
 
     const uploads=multer({storage});
-router.get('/productos', getProductos);
-router.get('/productos/:id', getproductosxid);
-router.post('/productos', upload.single('prod_imagen'), postProductos);
-router.put('/productos/:id', putProductos);
-router.patch('/productos/:id', patchProductos);
-router.delete('/productos/:id', deleteProductos);
 
-export default router;
+    const router=Router()
+    //armar nuestras rutas
+
+    router.get('/productos',getProductos)  //select
+    router.get('/productos/:id',getproductosxid)  //select x id
+    router.post('/productos',uploads.single('prod_imagen'), postProducto)  //insert
+    router.put('/productos/:id',putProducto)  //update
+    router.patch('/productos/:id', patchProducto)  //update
+    router.delete('/productos/:id',deleteProducto)  //delete
+
+    export default router

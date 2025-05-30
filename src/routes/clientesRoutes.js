@@ -1,15 +1,15 @@
-import{Router} from 'express'
-import { getClientes,getClientesxid,postClientes,putClientes,patchClientes,deleteClientes} from '../controladores/clientesCtrl.js';
+import { Router } from "express";
+import { getobetenerClientes, getClientesxId, postClientes, putClientes, patchClientes, patchEstadoCliente, deleteClientes } from "../controladores/clientesCtrl.js";
 
 const router=Router();
+//armar las rutas "URL"
 
-//armar las rutas "URl"
-
-router.get('/clientes', getClientes);
-router.get('/clientes/:id', getClientesxid);
+router.get('/clientes', getobetenerClientes)
+router.get('/clientes/:id',getClientesxId)
 router.post('/clientes', postClientes)
 router.put('/clientes/:id', putClientes)
-router.patch('/clientes/:id', patchClientes)
-
+router.patch('clientes/:id', patchClientes)
+router.patch('/clientes/:id/estado', patchEstadoCliente);
 router.delete('/clientes/:id', deleteClientes)
+
 export default router;

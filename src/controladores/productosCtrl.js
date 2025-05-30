@@ -1,35 +1,14 @@
-import { conmysql } from "../bd.js";
-import multer from 'multer';
-import path from 'path';
+import { conmysql } from "../bd.js"
 
-// Configuración de Multer
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads'),
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  }
-});
-export const upload = multer({ storage });
-
-// GET: Todos los productos
 export const getProductos = async (req, res) => {
   try {
     const [result] = await conmysql.query('SELECT * FROM productos');
-    // Agrega la URL base a las imágenes
-    const productosConUrl = result.map(producto => ({
-      ...producto,
-      prod_imagen: producto.prod_imagen 
-        ? `${req.protocol}://${req.get('host')}${producto.prod_imagen}`
-        : null
-    }));
-    res.json(productosConUrl);
+    res.json(result);
   } catch (error) {
     return res.status(500).json({ message: "Error al consultar productos" });
   }
 }
 
-// GET: Producto por ID
 export const getproductosxid = async (req, res) => {
   try {
     const [result] = await conmysql.query('SELECT * FROM productos WHERE prod_id = ?', [req.params.id]);
@@ -43,8 +22,7 @@ export const getproductosxid = async (req, res) => {
   }
 }
 
-// POST: Crear nuevo producto con imagen
-export const postProductos = async (req, res) => {
+export const postProducto = async (req, res) => {
   try {
     const { prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo } = req.body;
     const prod_imagen = req.file ? `/uploads/${req.file.filename}` : null;
@@ -75,8 +53,7 @@ export const postProductos = async (req, res) => {
   }
 };
 
-
-export const putProductos = async (req, res) => {
+export const putProducto = async (req, res) => {
   try {
     const { id } = req.params;
     const { prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo, prod_imagen } = req.body;
@@ -107,7 +84,7 @@ export const putProductos = async (req, res) => {
   }
 };
 
-export const patchProductos = async (req, res) => {
+export const patchProducto = async (req, res) => {
   try {
     const { id } = req.params;
     const { prod_codigo, prod_nombre, prod_stock, prod_precio, prod_activo, prod_imagen } = req.body;
@@ -140,7 +117,7 @@ export const patchProductos = async (req, res) => {
   }
 };
 
-export const deleteProductos = async (req, res) => {
+export const deleteProducto = async (req, res) => {
   try {
     const [rows] = await conmysql.query('DELETE FROM productos WHERE prod_id = ?', [req.params.id]);
     if (rows.affectedRows <= 0) return res.status(404).json({
