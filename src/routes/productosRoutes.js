@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/productos', getProductos);
 router.get('/productos/:id', getProductosxid);
-router.post('/productos', upload.single('imagen_principal'), postProductos);
+router.post('/productos', upload.single('prod_imagen'), postProductos);
 router.put('/productos/:id', putProductos);
 router.patch('/productos/:id', patchProductos);
 router.delete('/productos/:id', deleteProductos);
