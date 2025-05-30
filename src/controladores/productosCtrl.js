@@ -3,9 +3,19 @@ import { conmysql } from "../bd.js"
 export const getProductos = async (req, res) => {
   try {
     const [result] = await conmysql.query('SELECT * FROM productos');
+    
+    // Asegúrate de manejar casos donde result sea undefined
+    if (!result) {
+      return res.status(500).json({ message: "Error inesperado en la consulta" });
+    }
+    
     res.json(result);
   } catch (error) {
-    return res.status(500).json({ message: "Error al consultar productos" });
+    console.error('Error en getProductos:', error); // Log detallado
+    res.status(500).json({ 
+      message: "Error al consultar productos",
+      error: error.message // Solo en desarrollo, no en producción
+    });
   }
 }
 
